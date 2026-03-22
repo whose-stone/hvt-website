@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <clipPath id="circ"><circle cx="250" cy="250" r="218"/></clipPath>
+    <!-- Curved text paths -->
+    <path id="topArc"  d="M 58,250 A 192,192 0 0,1 442,250"/>
+    <path id="botArc"  d="M 75,280 A 192,192 0 0,0 425,280"/>
+  </defs>
+
+  <!-- ── OUTER BORDER RING ── -->
+  <circle cx="250" cy="250" r="245" fill="#2c2c2c"/>
+  <circle cx="250" cy="250" r="221" fill="#d6d6d6"/>
+
+  <!-- ── BACKGROUND FIELD ── -->
+  <circle cx="250" cy="250" r="218" fill="#d8d8d8"/>
+
+  <!-- ── SUNBURST RAYS (clipped to inner circle) ── -->
+  <!-- 24 rays alternating 3 shades, each 15° wide -->
+  <g clip-path="url(#circ)">
+    <!-- shade A #aaaaaa, shade B #bababa, shade C #cacaca, cycling -->
+    <polygon points="250,250 250,32  288,35"  fill="#aaaaaa"/>
+    <polygon points="250,250 288,35  322,46"  fill="#bababa"/>
+    <polygon points="250,250 322,46  352,65"  fill="#cacaca"/>
+    <polygon points="250,250 352,65  376,91"  fill="#aaaaaa"/>
+    <polygon points="250,250 376,91  393,122" fill="#bababa"/>
+    <polygon points="250,250 393,122 402,156" fill="#cacaca"/>
+    <polygon points="250,250 402,156 403,192" fill="#aaaaaa"/>
+    <polygon points="250,250 403,192 396,228" fill="#bababa"/>
+    <polygon points="250,250 396,228 382,262" fill="#cacaca"/>
+    <polygon points="250,250 382,262 360,292" fill="#aaaaaa"/>
+    <polygon points="250,250 360,292 332,318" fill="#bababa"/>
+    <polygon points="250,250 332,318 300,338" fill="#cacaca"/>
+    <polygon points="250,250 300,338 264,350" fill="#aaaaaa"/>
+    <polygon points="250,250 264,350 227,353" fill="#bababa"/>
+    <polygon points="250,250 227,353 191,348" fill="#cacaca"/>
+    <polygon points="250,250 191,348 157,336" fill="#aaaaaa"/>
+    <polygon points="250,250 157,336 126,316" fill="#bababa"/>
+    <polygon points="250,250 126,316  99,290" fill="#cacaca"/>
+    <polygon points="250,250  99,290  79,260" fill="#aaaaaa"/>
+    <polygon points="250,250  79,260  67,227" fill="#bababa"/>
+    <polygon points="250,250  67,227  64,192" fill="#cacaca"/>
+    <polygon points="250,250  64,192  70,157" fill="#aaaaaa"/>
+    <polygon points="250,250  70,157  84,124" fill="#bababa"/>
+    <polygon points="250,250  84,124 106,95"  fill="#cacaca"/>
+    <polygon points="250,250 106,95  135,71"  fill="#aaaaaa"/>
+    <polygon points="250,250 135,71  168,55"  fill="#bababa"/>
+    <polygon points="250,250 168,55  205,46"  fill="#cacaca"/>
+    <polygon points="250,250 205,46  250,32"  fill="#aaaaaa"/>
+  </g>
+
+  <!-- ── LEM LINE ART (clipped) ── -->
+  <g clip-path="url(#circ)" stroke="#444" stroke-linecap="round" stroke-linejoin="round" fill="none">
+
+    <!-- Descent stage outer octagon -->
+    <polygon points="250,135 278,135 295,152 295,188 278,204 250,204 222,204 205,188 205,152 222,135"
+             stroke-width="3.5"/>
+    <!-- X brace on descent stage -->
+    <line x1="222" y1="135" x2="278" y2="204" stroke-width="1.8"/>
+    <line x1="278" y1="135" x2="222" y2="204" stroke-width="1.8"/>
+    <!-- Horizontal mid bar -->
+    <line x1="205" y1="170" x2="295" y2="170" stroke-width="2"/>
+    <!-- Vertical centre spine -->
+    <line x1="250" y1="135" x2="250" y2="204" stroke-width="1.8"/>
+
+    <!-- Ascent stage body -->
+    <rect x="220" y="95" width="60" height="42" rx="3" stroke-width="3.5"/>
+    <!-- Ascent stage porthole window -->
+    <circle cx="250" cy="113" r="12" stroke-width="2.5"/>
+    <!-- Window crosshair -->
+    <line x1="250" y1="101" x2="250" y2="125" stroke-width="1.2"/>
+    <line x1="238" y1="113" x2="262" y2="113" stroke-width="1.2"/>
+    <!-- Top cap of ascent stage -->
+    <rect x="235" y="88" width="30" height="10" rx="2" stroke-width="2"/>
+
+    <!-- Antenna mast -->
+    <line x1="250" y1="88" x2="250" y2="68" stroke-width="2.2"/>
+    <!-- Antenna dish -->
+    <circle cx="250" cy="62" r="8" stroke-width="2"/>
+    <line x1="244" y1="56" x2="250" y2="68" stroke-width="1.5"/>
+    <line x1="256" y1="56" x2="250" y2="68" stroke-width="1.5"/>
+    <!-- Gauge / instrument on left of ascent stage -->
+    <circle cx="224" cy="108" r="6" stroke-width="1.8"/>
+    <line x1="218" y1="108" x2="210" y2="104" stroke-width="1.5"/>
+    <line x1="210" y1="100" x2="210" y2="108" stroke-width="1.5"/>
+
+    <!-- Left solar panel arm -->
+    <line x1="205" y1="170" x2="168" y2="170" stroke-width="2"/>
+    <!-- Left solar panel frame -->
+    <rect x="130" y="156" width="38" height="28" stroke-width="2.5"/>
+    <line x1="143" y1="156" x2="143" y2="184" stroke-width="1.2"/>
+    <line x1="156" y1="156" x2="156" y2="184" stroke-width="1.2"/>
+    <line x1="130" y1="170" x2="168" y2="170" stroke-width="1.2"/>
+
+    <!-- Right solar panel arm -->
+    <line x1="295" y1="170" x2="332" y2="170" stroke-width="2"/>
+    <!-- Right solar panel frame -->
+    <rect x="332" y="156" width="38" height="28" stroke-width="2.5"/>
+    <line x1="345" y1="156" x2="345" y2="184" stroke-width="1.2"/>
+    <line x1="358" y1="156" x2="358" y2="184" stroke-width="1.2"/>
+    <line x1="332" y1="170" x2="370" y2="170" stroke-width="1.2"/>
+
+    <!-- Left landing leg — primary strut -->
+    <line x1="222" y1="204" x2="172" y2="280" stroke-width="3"/>
+    <!-- Left leg brace -->
+    <line x1="238" y1="204" x2="172" y2="280" stroke-width="1.8"/>
+    <!-- Left footpad -->
+    <line x1="152" y1="280" x2="192" y2="280" stroke-width="4"/>
+    <line x1="152" y1="274" x2="152" y2="286" stroke-width="2"/>
+    <line x1="192" y1="274" x2="192" y2="286" stroke-width="2"/>
+
+    <!-- Right landing leg -->
+    <line x1="278" y1="204" x2="328" y2="280" stroke-width="3"/>
+    <line x1="262" y1="204" x2="328" y2="280" stroke-width="1.8"/>
+    <!-- Right footpad -->
+    <line x1="308" y1="280" x2="348" y2="280" stroke-width="4"/>
+    <line x1="308" y1="274" x2="308" y2="286" stroke-width="2"/>
+    <line x1="348" y1="274" x2="348" y2="286" stroke-width="2"/>
+
+    <!-- Centre leg -->
+    <line x1="250" y1="204" x2="250" y2="284" stroke-width="3"/>
+    <line x1="240" y1="204" x2="250" y2="284" stroke-width="1.8"/>
+    <line x1="260" y1="204" x2="250" y2="284" stroke-width="1.8"/>
+    <!-- Centre footpad -->
+    <line x1="232" y1="284" x2="268" y2="284" stroke-width="4"/>
+
+    <!-- Engine bell -->
+    <path d="M 238,204 L 234,220 L 266,220 L 262,204" stroke-width="2"/>
+    <line x1="230" y1="220" x2="270" y2="220" stroke-width="3"/>
+
+    <!-- US Flag patch on ascent stage right side -->
+    <rect x="276" y="120" width="16" height="11" stroke-width="1.5"/>
+    <line x1="276" y1="125" x2="292" y2="125" stroke-width="0.8"/>
+    <rect x="276" y="120" width="6" height="5" stroke-width="0.8"/>
+
+    <!-- Moon surface terrain -->
+    <path d="M 100,292 Q 130,282 155,286 Q 175,290 200,284 Q 220,278 250,282 Q 280,286 305,280 Q 330,274 360,280 Q 385,285 400,280"
+          stroke-width="2.5"/>
+    <!-- Surface rocks -->
+    <ellipse cx="148" cy="292" rx="12" ry="5" stroke-width="1.8"/>
+    <ellipse cx="362" cy="286" rx="9"  ry="4" stroke-width="1.8"/>
+    <ellipse cx="215" cy="290" rx="7"  ry="3" stroke-width="1.5"/>
+    <ellipse cx="310" cy="287" rx="8"  ry="3.5" stroke-width="1.5"/>
+  </g>
+
+  <!-- ── HVT LETTERING — white fill, thick dark stroke ── -->
+  <!-- H -->
+  <text
+    x="250" y="248"
+    font-family="'Arial Black', 'Impact', sans-serif"
+    font-size="118"
+    font-weight="900"
+    letter-spacing="4"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    stroke="#1a1a1a"
+    stroke-width="12"
+    paint-order="stroke"
+    fill="white">HVT</text>
+
+  <!-- ── THINK (top arc) ── -->
+  <text
+    font-family="'Arial Black', 'Impact', sans-serif"
+    font-size="40"
+    font-weight="900"
+    letter-spacing="14"
+    text-anchor="middle"
+    fill="#1a1a1a">
+    <textPath href="#topArc" startOffset="50%">THINK</textPath>
+  </text>
+
+  <!-- ── HIGHER (bottom arc) ── -->
+  <text
+    font-family="'Arial Black', 'Impact', sans-serif"
+    font-size="40"
+    font-weight="900"
+    letter-spacing="10"
+    text-anchor="middle"
+    fill="#1a1a1a">
+    <textPath href="#botArc" startOffset="50%">HIGHER</textPath>
+  </text>
+
+</svg>
