@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>High Value Thinking | HVT</title>
+  <meta name="description" content="High Value Thinking — setup, configuration, and maintenance of data, AI, and analytics software. Cloud computing, LLMs, BI platforms, and no-code automation." />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="/logo.svg" alt="HVT Logo" class="logo-img" />
+      <span class="logo-text">HIGH VALUE THINKING</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact" class="nav-cta">Contact Mission Control</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="star-field" id="starField"></div>
+  <div class="scanlines"></div>
+  <div class="hero-content">
+    <div class="mission-badge">MISSION CONTROL &middot; EST. 2024</div>
+    <h1 class="hero-title">
+      <span class="hero-line">HIGH VALUE</span>
+      <span class="hero-line accent">THINKING</span>
+    </h1>
+    <p class="hero-sub">Enterprise data, AI &amp; analytics solutions.<br />We handle the infrastructure. You handle the mission.</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-ghost">Launch Consultation</a>
+    </div>
+  </div>
+
+  <!-- LUNAR LANDER GAME -->
+  <div class="game-wrapper">
+    <div class="game-hud">
+      <div class="hud-item"><span class="hud-label">FUEL</span><span class="hud-value" id="fuelVal">100%</span></div>
+      <div class="hud-item"><span class="hud-label">ALTITUDE</span><span class="hud-value" id="altVal">---</span></div>
+      <div class="hud-item"><span class="hud-label">VELOCITY</span><span class="hud-value" id="velVal">---</span></div>
+      <div class="hud-item"><span class="hud-label">SCORE</span><span class="hud-value" id="scoreVal">0</span></div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div class="game-overlay" id="gameOverlay">
+      <div class="overlay-box">
+        <div class="overlay-mission">LUNAR LANDER</div>
+        <h2 id="overlayTitle">MISSION BRIEFING</h2>
+        <p id="overlayMsg">Pilot the lunar module to the landing pads.<br/>&#8592; &#8594; Rotate &nbsp;|&nbsp; &#8593; Thrust &nbsp;|&nbsp; R Restart</p>
+        <p class="overlay-mobile-hint">Mobile: use the controls below the game</p>
+        <button class="btn-primary" id="startBtn">INITIATE LANDING</button>
+      </div>
+    </div>
+    <div class="mobile-controls">
+      <button class="ctrl-btn" id="ctrlLeft">&#9664; LEFT</button>
+      <button class="ctrl-btn ctrl-thrust" id="ctrlThrust">&#9650; THRUST</button>
+      <button class="ctrl-btn" id="ctrlRight">RIGHT &#9654;</button>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>SCROLL TO EXPLORE</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">MISSION CAPABILITIES</div>
+      <h2 class="section-title">What We Deploy</h2>
+      <p class="section-sub">From lift-off to orbit &mdash; end-to-end configuration, integration, and ongoing support of the tools that power modern data organisations.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" data-delay="0">
+        <div class="service-icon">&#9729;</div>
+        <h3>Cloud Computing</h3>
+        <p>AWS, Azure, GCP environment setup, IAM configuration, cost optimisation, and managed infrastructure for data workloads.</p>
+        <ul class="service-tags"><li>AWS</li><li>Azure</li><li>GCP</li><li>Terraform</li></ul>
+      </div>
+      <div class="service-card" data-delay="1">
+        <div class="service-icon">&#129302;</div>
+        <h3>AI &amp; LLMs</h3>
+        <p>LLM deployment, prompt engineering, RAG pipelines, vector databases, and AI governance frameworks for the enterprise.</p>
+        <ul class="service-tags"><li>OpenAI</li><li>Anthropic</li><li>LangChain</li><li>Pinecone</li></ul>
+      </div>
+      <div class="service-card" data-delay="2">
+        <div class="service-icon">&#128202;</div>
+        <h3>BI Platforms</h3>
+        <p>Full setup and training for Tableau, Power BI, Looker, and Metabase &mdash; from data modelling to executive dashboards.</p>
+        <ul class="service-tags"><li>Power BI</li><li>Tableau</li><li>Looker</li><li>Metabase</li></ul>
+      </div>
+      <div class="service-card" data-delay="3">
+        <div class="service-icon">&#9889;</div>
+        <h3>No-Code / Low-Code</h3>
+        <p>Automate workflows and integrate systems without custom development. Make, n8n, Zapier, and Microsoft Power Platform.</p>
+        <ul class="service-tags"><li>Make</li><li>n8n</li><li>Zapier</li><li>Power Apps</li></ul>
+      </div>
+      <div class="service-card" data-delay="4">
+        <div class="service-icon">&#128452;</div>
+        <h3>Data Infrastructure</h3>
+        <p>Snowflake, BigQuery, and Databricks configuration. Data pipeline design, dbt modelling, and warehouse optimisation.</p>
+        <ul class="service-tags"><li>Snowflake</li><li>dbt</li><li>BigQuery</li><li>Databricks</li></ul>
+      </div>
+      <div class="service-card" data-delay="5">
+        <div class="service-icon">&#128295;</div>
+        <h3>Ongoing Support</h3>
+        <p>Retainer-based maintenance, version upgrades, performance audits, and dedicated support for your entire data stack.</p>
+        <ul class="service-tags"><li>SLA</li><li>Monitoring</li><li>Training</li><li>Audits</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section id="mission">
+  <div class="section-inner mission-inner">
+    <div class="mission-text">
+      <div class="section-tag">OUR MISSION</div>
+      <h2 class="section-title">Built for the Long Haul</h2>
+      <p>High Value Thinking exists because the gap between powerful software and meaningful business impact is wider than most organisations expect. We close that gap.</p>
+      <p>We don&rsquo;t build bespoke systems. We configure, integrate, and maintain the best off-the-shelf platforms in the world &mdash; so your team gets results without the overhead of a full engineering department.</p>
+      <div class="mission-stats">
+        <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Platforms Supported</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Off-the-shelf</div></div>
+        <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Mission Support</div></div>
+      </div>
+    </div>
+    <div class="mission-visual">
+      <div class="orbit-diagram">
+        <div class="orbit o1"><div class="planet p1"></div></div>
+        <div class="orbit o2"><div class="planet p2"></div></div>
+        <div class="orbit o3"><div class="planet p3"></div></div>
+        <div class="core"><img src="/logo.svg" alt="HVT" class="orbit-logo" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">TECHNOLOGY STACK</div>
+      <h2 class="section-title">Platforms We Master</h2>
+    </div>
+    <div class="stack-ticker">
+      <div class="ticker-track" id="tickerTrack">
+        <span>Snowflake</span><span>Power BI</span><span>Tableau</span><span>Databricks</span><span>dbt</span><span>Looker</span><span>OpenAI</span><span>AWS</span><span>Azure</span><span>GCP</span><span>n8n</span><span>Make</span><span>Zapier</span><span>Anthropic</span><span>LangChain</span><span>Pinecone</span><span>BigQuery</span><span>Fivetran</span><span>Airbyte</span><span>Metabase</span><span>Retool</span><span>Airtable</span><span>Notion</span><span>Monday.com</span><span>Salesforce</span><span>HubSpot</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">MISSION CONTROL</div>
+      <h2 class="section-title">Ready to Launch?</h2>
+      <p class="section-sub">Tell us about your data stack challenge. We&rsquo;ll respond within one business day.</p>
+    </div>
+    <div class="contact-grid">
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="fname" placeholder="Neil" required />
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Armstrong" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="neil@nasa.gov" required />
+        </div>
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" placeholder="NASA" />
+        </div>
+        <div class="form-group">
+          <label for="interest">Area of Interest</label>
+          <select id="interest" name="interest">
+            <option value="" disabled selected>Select a mission area&hellip;</option>
+            <option>Cloud Computing</option>
+            <option>AI &amp; LLMs</option>
+            <option>BI Platforms</option>
+            <option>No-Code / Low-Code</option>
+            <option>Data Infrastructure</option>
+            <option>Ongoing Support</option>
+            <option>Multiple / Unsure</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Mission Brief</label>
+          <textarea id="message" name="message" rows="5" placeholder="Describe your data stack challenge&hellip;" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary btn-full" id="submitBtn">TRANSMIT MESSAGE</button>
+        <div class="form-success" id="formSuccess"><span>&#10003;</span> Message received. We&rsquo;ll be in touch shortly.</div>
+      </form>
+      <div class="contact-info">
+        <div class="contact-block">
+          <div class="section-tag">DIRECT CHANNEL</div>
+          <p class="contact-detail">hello@highvaluethinking.com</p>
+        </div>
+        <div class="contact-block">
+          <div class="section-tag">COORDINATES</div>
+          <p class="contact-detail">Remote-first &middot; Worldwide</p>
+        </div>
+        <div class="contact-block">
+          <div class="section-tag">MISSION HOURS</div>
+          <p class="contact-detail">Mon&ndash;Fri &middot; 09:00&ndash;18:00 UTC</p>
+        </div>
+        <div class="mission-patch">
+          <img src="/logo.svg" alt="HVT Mission Patch" />
+          <p>HIGH VALUE THINKING<br/><span>MISSION CONTROL &middot; EARTH ORBIT</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="/logo.svg" alt="HVT" />
+      <span>HIGH VALUE THINKING</span>
+    </div>
+    <p class="footer-copy">&copy; 2024 High Value Thinking Ltd. All rights reserved.</p>
+    <p class="footer-tag">&ldquo;One small step for data. One giant leap for your business.&rdquo;</p>
+  </div>
+</footer>
+
+<script src="/game.js"></script>
+<script src="/main.js"></script>
+</body>
+</html>
