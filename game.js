@@ -22,7 +22,7 @@
   resizeCanvas();
   window.addEventListener('resize', () => { resizeCanvas(); if (!gameRunning) drawIdle(); });
 
-  // ── Constants (tuned for easier play) ──────────────────
+  // ── Constants ──────────────────────────────────────────
   const GRAVITY      = 0.007;
   const THRUST_MAIN  = 0.040;
   const ROTATE_SPEED = 0.025;
@@ -128,15 +128,20 @@
     s.thrusting = false;
 
     if (keys['ArrowUp'] && s.fuel > 0) {
-      s.vx -= Math.sin(s.angle) * THRUST_MAIN;
+      // Canvas Y is inverted (down = +Y), angle=0 = pointing up.
+      // Thrust direction must be OPPOSITE to the flame (which exits the bottom).
+      // Tilted right (angle > 0): lander top leans right → thrust goes up-right.
+      // vx += sin(angle)  →  positive angle = rightward push  ✓
+      // vy -= cos(angle)  →  always pushes upward (negative Y) ✓
+      s.vx += Math.sin(s.angle) * THRUST_MAIN;
       s.vy -= Math.cos(s.angle) * THRUST_MAIN;
       s.fuel = Math.max(0, s.fuel - 1.5);
       s.thrusting = true;
       spawnParticles(s);
     }
-    // Fixed: ArrowLeft rotates counter-clockwise (negative = left), ArrowRight clockwise (positive = right)
-    if (keys['ArrowLeft']  && s.fuel > 0) { s.angle += ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
-    if (keys['ArrowRight'] && s.fuel > 0) { s.angle -= ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
+    // ArrowLeft tilts lander left (top goes left = negative angle change in canvas coords)
+    if (keys['ArrowLeft']  && s.fuel > 0) { s.angle -= ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
+    if (keys['ArrowRight'] && s.fuel > 0) { s.angle += ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
 
     s.vy += GRAVITY;
     s.x  += s.vx;
@@ -155,6 +160,7 @@
   function spawnParticles(s) {
     for (let i = 0; i < 4; i++) {
       const sp = (Math.random() - 0.5) * 0.8;
+      // Particles exit from the bottom of the lander (opposite to thrust direction)
       s.particles.push({
         x: s.x + Math.sin(s.angle + Math.PI) * 14,
         y: s.y + Math.cos(s.angle + Math.PI) * 14,
