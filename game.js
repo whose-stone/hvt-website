@@ -29,8 +29,8 @@
   const MAX_LAND_VEL = 1.4;
   const MAX_LAND_ANG = 0.52;
   const PAD_W        = 90;
-  const LANDER_W     = 28;
-  const LANDER_H     = 22;
+  const LANDER_W     = 38;
+  const LANDER_H     = 32;
   const TOTAL_FUEL   = 1400;
 
   let state, keys, score, gameRunning, animId;
@@ -128,18 +128,12 @@
     s.thrusting = false;
 
     if (keys['ArrowUp'] && s.fuel > 0) {
-      // Canvas Y is inverted (down = +Y), angle=0 = pointing up.
-      // Thrust direction must be OPPOSITE to the flame (which exits the bottom).
-      // Tilted right (angle > 0): lander top leans right → thrust goes up-right.
-      // vx += sin(angle)  →  positive angle = rightward push  ✓
-      // vy -= cos(angle)  →  always pushes upward (negative Y) ✓
       s.vx += Math.sin(s.angle) * THRUST_MAIN;
       s.vy -= Math.cos(s.angle) * THRUST_MAIN;
       s.fuel = Math.max(0, s.fuel - 1.5);
       s.thrusting = true;
       spawnParticles(s);
     }
-    // ArrowLeft tilts lander left (top goes left = negative angle change in canvas coords)
     if (keys['ArrowLeft']  && s.fuel > 0) { s.angle -= ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
     if (keys['ArrowRight'] && s.fuel > 0) { s.angle += ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
 
@@ -158,15 +152,14 @@
   }
 
   function spawnParticles(s) {
-    for (let i = 0; i < 4; i++) {
-      const sp = (Math.random() - 0.5) * 0.8;
-      // Particles exit from the bottom of the lander (opposite to thrust direction)
+    for (let i = 0; i < 5; i++) {
+      const sp = (Math.random() - 0.5) * 1.0;
       s.particles.push({
-        x: s.x + Math.sin(s.angle + Math.PI) * 14,
-        y: s.y + Math.cos(s.angle + Math.PI) * 14,
-        vx: Math.sin(s.angle + Math.PI + sp) * (1.2 + Math.random()),
-        vy: Math.cos(s.angle + Math.PI + sp) * (1.2 + Math.random()),
-        life: 20, maxLife: 20, type: 'thrust'
+        x: s.x + Math.sin(s.angle + Math.PI) * 18,
+        y: s.y + Math.cos(s.angle + Math.PI) * 18,
+        vx: Math.sin(s.angle + Math.PI + sp) * (1.5 + Math.random() * 1.5),
+        vy: Math.cos(s.angle + Math.PI + sp) * (1.5 + Math.random() * 1.5),
+        life: 22, maxLife: 22, type: 'thrust'
       });
     }
   }
@@ -185,9 +178,9 @@
   function checkLanding() {
     const s = state;
     const ty   = terrainY(s.x);
-    const legY = s.y + LANDER_H / 2 + 6;
+    const legY = s.y + LANDER_H / 2 + 10;
     if (legY >= ty) {
-      s.y = ty - LANDER_H / 2 - 6;
+      s.y = ty - LANDER_H / 2 - 10;
       const speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
       const ang   = Math.abs(s.angle % (Math.PI * 2));
       const pad   = state.pads.find(p => s.x >= p.x && s.x <= p.x + p.w);
@@ -219,6 +212,253 @@
     velEl.textContent  = vel.toFixed(2) + 'm/s';
     velEl.style.color  = vel > MAX_LAND_VEL ? '#e07070' : '#c0c8d8';
     fuelEl.style.color = s.fuel < 300 ? '#d4aa60' : '#c0c8d8';
+  }
+
+  // ── Detailed LEM drawing ────────────────────────────────
+  // All coords relative to lander center (0,0), scaled to fit ~38x32px bounding box.
+  // Positive Y = down in canvas space. Lander "up" = negative Y.
+  // Scale factor: SVG source is ~80 units wide, we want ~38px → scale = 38/80 ≈ 0.475
+  // Origin offset: SVG LEM center is at roughly (40, 68) in the g transform space
+  function drawLEM(thrusting) {
+    const sc = 0.45;
+    const ox = -38 * sc;  // center the 76-unit-wide shape
+    const oy = -80 * sc;  // center the ~100-unit-tall shape (top of antenna to bottom of legs)
+
+    // ── Engine flame ────────────────────────────────────
+    if (thrusting) {
+      const fh = (18 + Math.random() * 12) * sc;
+      const fy = (96) * sc + oy;
+      const fg = ctx.createLinearGradient(0, fy, 0, fy + fh);
+      fg.addColorStop(0,   'rgba(200,210,255,0.95)');
+      fg.addColorStop(0.3, 'rgba(255,190,60,0.8)');
+      fg.addColorStop(1,   'rgba(255,80,10,0)');
+      ctx.fillStyle = fg;
+      ctx.beginPath();
+      ctx.moveTo(-6 * sc, fy);
+      ctx.lineTo( 6 * sc, fy);
+      ctx.lineTo( 0, fy + fh);
+      ctx.fill();
+    }
+
+    // ── Landing legs ─────────────────────────────────────
+    ctx.strokeStyle = '#a0b0be'; ctx.lineWidth = 2.2 * sc;  ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo((30 - 38) * sc + ox + 38*sc, (87 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((18 - 38) * sc + ox + 38*sc, (100 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+    ctx.lineWidth = 1.4 * sc;
+    ctx.beginPath();
+    ctx.moveTo((27 - 38) * sc + ox + 38*sc, (87 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((13 - 38) * sc + ox + 38*sc, (102 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+    ctx.lineWidth = 2.8 * sc;
+    ctx.beginPath();
+    ctx.moveTo((18 - 38) * sc + ox + 38*sc, (100 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((8  - 38) * sc + ox + 38*sc, (100 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+    ctx.lineWidth = 1.2 * sc;
+    ctx.beginPath();
+    ctx.moveTo((13 - 38) * sc + ox + 38*sc, (102 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((4  - 38) * sc + ox + 38*sc, (102 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+
+    ctx.lineWidth = 2.2 * sc;
+    ctx.beginPath();
+    ctx.moveTo((50 - 38) * sc + ox + 38*sc, (87 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((62 - 38) * sc + ox + 38*sc, (100 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+    ctx.lineWidth = 1.4 * sc;
+    ctx.beginPath();
+    ctx.moveTo((53 - 38) * sc + ox + 38*sc, (87 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((67 - 38) * sc + ox + 38*sc, (102 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+    ctx.lineWidth = 2.8 * sc;
+    ctx.beginPath();
+    ctx.moveTo((62 - 38) * sc + ox + 38*sc, (100 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((72 - 38) * sc + ox + 38*sc, (100 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+    ctx.lineWidth = 1.2 * sc;
+    ctx.beginPath();
+    ctx.moveTo((67 - 38) * sc + ox + 38*sc, (102 - 68) * sc + oy + 80*sc);
+    ctx.lineTo((76 - 38) * sc + ox + 38*sc, (102 - 68) * sc + oy + 80*sc);
+    ctx.stroke();
+
+    // Helper: convert SVG-space coords to canvas-relative coords
+    const cx = (svgX) => (svgX - 38) * sc + ox + 38*sc;
+    const cy = (svgY) => (svgY - 68) * sc + oy + 80*sc;
+    const cw = (w)    => w * sc;
+    const ch = (h)    => h * sc;
+
+    // ── Descent stage skirt (equipment shelf) ─────────
+    const dsGrad = ctx.createLinearGradient(cx(16), cy(80), cx(60), cy(80));
+    dsGrad.addColorStop(0,   '#b0bcc8');
+    dsGrad.addColorStop(0.5, '#a8b8c4');
+    dsGrad.addColorStop(1,   '#8090a0');
+    ctx.fillStyle = dsGrad;
+    ctx.beginPath();
+    ctx.roundRect(cx(26), cy(80), cw(28), ch(7), 0.8 * sc);
+    ctx.fill();
+    ctx.strokeStyle = '#7888a0'; ctx.lineWidth = 0.5 * sc;
+    ctx.stroke();
+    for (let i = 0; i < 4; i++) {
+      ctx.fillStyle = '#506070';
+      ctx.beginPath();
+      ctx.roundRect(cx(27 + i * 6.5), cy(81), cw(5), ch(5), 0.3 * sc);
+      ctx.fill();
+    }
+
+    // ── Descent stage body ─────────────────────────────
+    const dsBodyGrad = ctx.createLinearGradient(cx(16), cy(57), cx(60), cy(80));
+    dsBodyGrad.addColorStop(0,   '#e0e8f0');
+    dsBodyGrad.addColorStop(0.6, '#b0bcc8');
+    dsBodyGrad.addColorStop(1,   '#8090a0');
+    ctx.fillStyle = dsBodyGrad;
+    ctx.beginPath();
+    ctx.moveTo(cx(38), cy(57));
+    ctx.lineTo(cx(54), cy(57));
+    ctx.lineTo(cx(60), cy(65));
+    ctx.lineTo(cx(54), cy(80));
+    ctx.lineTo(cx(38), cy(80));
+    ctx.lineTo(cx(22), cy(80));
+    ctx.lineTo(cx(16), cy(65));
+    ctx.lineTo(cx(22), cy(57));
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#8898a8'; ctx.lineWidth = 0.8 * sc; ctx.stroke();
+    // Side face shadow
+    ctx.fillStyle = 'rgba(120,128,144,0.65)';
+    ctx.beginPath();
+    ctx.moveTo(cx(54), cy(57)); ctx.lineTo(cx(60), cy(65)); ctx.lineTo(cx(60), cy(80)); ctx.lineTo(cx(54), cy(80));
+    ctx.closePath(); ctx.fill();
+    // Panel lines
+    ctx.strokeStyle = '#7888a0'; ctx.lineWidth = 0.5 * sc;
+    [[28,57,28,80],[36,57,36,80],[46,57,46,80],[52,57,52,80]].forEach(([x1,y1,x2,y2]) => {
+      ctx.globalAlpha = 0.45; ctx.beginPath(); ctx.moveTo(cx(x1),cy(y1)); ctx.lineTo(cx(x2),cy(y2)); ctx.stroke();
+    });
+    ctx.globalAlpha = 0.35; ctx.beginPath(); ctx.moveTo(cx(16),cy(67)); ctx.lineTo(cx(60),cy(67)); ctx.stroke();
+    ctx.globalAlpha = 0.25; ctx.beginPath(); ctx.moveTo(cx(17),cy(73)); ctx.lineTo(cx(60),cy(73)); ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // ── Solar panels ───────────────────────────────────
+    ctx.strokeStyle = '#8898a8'; ctx.lineWidth = 0.9 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(20), cy(72)); ctx.lineTo(cx(2), cy(72)); ctx.stroke();
+    const scGrad = ctx.createLinearGradient(cx(2), 0, cx(20), 0);
+    scGrad.addColorStop(0, '#1a2540'); scGrad.addColorStop(1, '#0e1828');
+    ctx.fillStyle = scGrad;
+    ctx.beginPath(); ctx.roundRect(cx(2), cy(72), cw(18), ch(13), 1.5 * sc); ctx.fill();
+    ctx.strokeStyle = '#2a4060'; ctx.lineWidth = 0.7 * sc; ctx.stroke();
+    ctx.strokeStyle = '#1e3050'; ctx.lineWidth = 0.6 * sc;
+    [7,11,15].forEach(x => { ctx.beginPath(); ctx.moveTo(cx(x),cy(72)); ctx.lineTo(cx(x),cy(85)); ctx.stroke(); });
+    ctx.strokeStyle = '#2a4870'; ctx.lineWidth = 0.5 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(2),cy(78)); ctx.lineTo(cx(20),cy(78)); ctx.stroke();
+
+    ctx.beginPath(); ctx.moveTo(cx(60), cy(72)); ctx.lineTo(cx(78), cy(72));
+    ctx.strokeStyle = '#8898a8'; ctx.lineWidth = 0.9 * sc; ctx.stroke();
+    ctx.fillStyle = scGrad;
+    ctx.beginPath(); ctx.roundRect(cx(60), cy(72), cw(18), ch(13), 1.5 * sc); ctx.fill();
+    ctx.strokeStyle = '#2a4060'; ctx.lineWidth = 0.7 * sc; ctx.stroke();
+    ctx.strokeStyle = '#1e3050'; ctx.lineWidth = 0.6 * sc;
+    [65,69,73].forEach(x => { ctx.beginPath(); ctx.moveTo(cx(x),cy(72)); ctx.lineTo(cx(x),cy(85)); ctx.stroke(); });
+    ctx.strokeStyle = '#2a4870'; ctx.lineWidth = 0.5 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(60),cy(78)); ctx.lineTo(cx(78),cy(78)); ctx.stroke();
+
+    // ── Gold foil struts ──────────────────────────────
+    ctx.strokeStyle = '#d4a830'; ctx.lineWidth = 1.3 * sc; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx(28),cy(57)); ctx.lineTo(cx(20),cy(50)); ctx.lineTo(cx(20),cy(40)); ctx.lineTo(cx(28),cy(38)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(52),cy(57)); ctx.lineTo(cx(60),cy(50)); ctx.lineTo(cx(60),cy(40)); ctx.lineTo(cx(52),cy(38)); ctx.stroke();
+
+    // ── Gold foil panels ──────────────────────────────
+    const gfGrad = ctx.createLinearGradient(cx(14), cy(34), cx(28), cy(44));
+    gfGrad.addColorStop(0, '#f0d068'); gfGrad.addColorStop(0.5, '#c89820'); gfGrad.addColorStop(1, '#a07010');
+    ctx.fillStyle = gfGrad;
+    ctx.beginPath(); ctx.roundRect(cx(14), cy(34), cw(14), ch(10), 1.2 * sc); ctx.fill();
+    ctx.strokeStyle = '#a07010'; ctx.lineWidth = 0.6 * sc; ctx.stroke();
+    ctx.strokeStyle = '#604000'; ctx.lineWidth = 0.6 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(16),cy(37)); ctx.lineTo(cx(26),cy(37)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(16),cy(41)); ctx.lineTo(cx(26),cy(41)); ctx.stroke();
+
+    ctx.fillStyle = gfGrad;
+    ctx.beginPath(); ctx.roundRect(cx(52), cy(34), cw(14), ch(10), 1.2 * sc); ctx.fill();
+    ctx.strokeStyle = '#a07010'; ctx.lineWidth = 0.6 * sc; ctx.stroke();
+    ctx.strokeStyle = '#604000'; ctx.lineWidth = 0.6 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(54),cy(37)); ctx.lineTo(cx(64),cy(37)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(54),cy(41)); ctx.lineTo(cx(64),cy(41)); ctx.stroke();
+
+    // ── Ascent stage body ─────────────────────────────
+    const asGrad = ctx.createLinearGradient(cx(28), cy(38), cx(52), cy(58));
+    asGrad.addColorStop(0, '#c8d4e0'); asGrad.addColorStop(1, '#7890a0');
+    ctx.fillStyle = asGrad;
+    ctx.beginPath(); ctx.roundRect(cx(28), cy(38), cw(24), ch(20), 1.5 * sc); ctx.fill();
+    ctx.strokeStyle = '#7888a0'; ctx.lineWidth = 0.8 * sc; ctx.stroke();
+    // Top cap
+    const atGrad = ctx.createLinearGradient(cx(28), 0, cx(52), 0);
+    atGrad.addColorStop(0, '#b0c4d4'); atGrad.addColorStop(1, '#7090a8');
+    ctx.fillStyle = atGrad;
+    ctx.beginPath(); ctx.roundRect(cx(28), cy(37), cw(24), ch(4), 0.8 * sc); ctx.fill();
+    // Equipment bays
+    ctx.fillStyle = '#3a5068'; ctx.strokeStyle = '#4a6080'; ctx.lineWidth = 0.4 * sc;
+    ctx.beginPath(); ctx.roundRect(cx(29), cy(41), cw(7), ch(5), 0.5 * sc); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#2a3e54';
+    ctx.beginPath(); ctx.roundRect(cx(38), cy(41), cw(4), ch(5), 0.5 * sc); ctx.fill();
+    ctx.fillStyle = '#3a5068'; ctx.strokeStyle = '#4a6080';
+    ctx.beginPath(); ctx.roundRect(cx(44), cy(41), cw(7), ch(5), 0.5 * sc); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#6878a0'; ctx.lineWidth = 0.4 * sc; ctx.globalAlpha = 0.4;
+    ctx.beginPath(); ctx.moveTo(cx(29),cy(49)); ctx.lineTo(cx(51),cy(49)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(29),cy(53)); ctx.lineTo(cx(51),cy(53)); ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // ── Porthole window ───────────────────────────────
+    ctx.fillStyle = '#0c1520'; ctx.strokeStyle = '#506070'; ctx.lineWidth = 1.2 * sc;
+    ctx.beginPath(); ctx.arc(cx(40), cy(68), 9 * sc, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    const wgGrad = ctx.createRadialGradient(cx(37), cy(65), 1*sc, cx(40), cy(68), 7*sc);
+    wgGrad.addColorStop(0, 'rgba(88,150,180,0.8)'); wgGrad.addColorStop(1, 'rgba(12,24,40,1)');
+    ctx.fillStyle = wgGrad;
+    ctx.beginPath(); ctx.arc(cx(40), cy(68), 7 * sc, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#7aa0be'; ctx.lineWidth = 0.4 * sc; ctx.globalAlpha = 0.5;
+    ctx.beginPath(); ctx.arc(cx(40), cy(68), 7 * sc, 0, Math.PI * 2); ctx.stroke();
+    ctx.globalAlpha = 0.35; ctx.fillStyle = '#5888a8';
+    ctx.beginPath(); ctx.arc(cx(37), cy(65), 2.5 * sc, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 0.4; ctx.strokeStyle = '#607888'; ctx.lineWidth = 0.4 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(36),cy(68)); ctx.lineTo(cx(44),cy(68)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(40),cy(64)); ctx.lineTo(cx(40),cy(72)); ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // ── Descent engine bell ───────────────────────────
+    const thGrad = ctx.createLinearGradient(cx(35), cy(87), cx(45), cy(96));
+    thGrad.addColorStop(0, '#b0bcc8'); thGrad.addColorStop(1, '#607080');
+    ctx.fillStyle = thGrad; ctx.strokeStyle = '#6878a0'; ctx.lineWidth = 0.7 * sc;
+    ctx.beginPath(); ctx.roundRect(cx(35), cy(87), cw(10), ch(9), 0.8 * sc); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#506070'; ctx.strokeStyle = '#404e5e'; ctx.lineWidth = 0.4 * sc;
+    ctx.beginPath(); ctx.ellipse(cx(40), cy(96), 4 * sc, 2 * sc, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#8090a0'; ctx.lineWidth = 0.4 * sc; ctx.globalAlpha = 0.6;
+    [37,40,43].forEach(x => { ctx.beginPath(); ctx.moveTo(cx(x),cy(87)); ctx.lineTo(cx(x),cy(95)); ctx.stroke(); });
+    ctx.globalAlpha = 1;
+
+    // ── Antenna ───────────────────────────────────────
+    ctx.strokeStyle = '#c0c8d8'; ctx.lineWidth = 1.4 * sc; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx(40),cy(37)); ctx.lineTo(cx(40),cy(25)); ctx.stroke();
+    ctx.lineWidth = 1.0 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(40),cy(25)); ctx.lineTo(cx(37),cy(19)); ctx.stroke();
+    ctx.lineWidth = 0.8 * sc;
+    ctx.beginPath(); ctx.moveTo(cx(40),cy(23)); ctx.lineTo(cx(43),cy(17)); ctx.stroke();
+    // Gold beacon
+    const antGrad = ctx.createRadialGradient(cx(40), cy(14), 0, cx(40), cy(14), 3.5*sc);
+    antGrad.addColorStop(0, '#f8e088'); antGrad.addColorStop(1, '#a07010');
+    ctx.fillStyle = antGrad; ctx.strokeStyle = '#906010'; ctx.lineWidth = 0.7 * sc;
+    ctx.beginPath(); ctx.arc(cx(40), cy(14), 3.5 * sc, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#ffeea0';
+    ctx.beginPath(); ctx.arc(cx(40), cy(14), 1.5 * sc, 0, Math.PI * 2); ctx.fill();
+
+    ctx.lineCap = 'butt';
+  }
+
+  function drawLander() {
+    const s = state;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.angle);
+    drawLEM(s.thrusting);
+    ctx.restore();
   }
 
   // Drawing
@@ -262,8 +502,7 @@
       const grd = ctx.createLinearGradient(pad.x, pad.y - 6, pad.x, pad.y);
       grd.addColorStop(0, 'rgba(192,200,216,0.0)');
       grd.addColorStop(1, 'rgba(192,200,216,0.08)');
-      ctx.fillStyle = grd;
-      ctx.fillRect(pad.x, pad.y - 6, pad.w, 6);
+      ctx.fillStyle = grd; ctx.fillRect(pad.x, pad.y - 6, pad.w, 6);
       ctx.fillStyle = '#c0c8d8'; ctx.fillRect(pad.x, pad.y - 3, pad.w, 3);
       for (let i = 0; i <= 6; i++) {
         ctx.fillStyle = i % 2 === 0 ? '#d4aa60' : '#c0c8d8';
@@ -277,53 +516,13 @@
     ctx.textAlign = 'left';
   }
 
-  function drawLander() {
-    const s = state;
-    ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.angle);
-    const hw = LANDER_W / 2, hh = LANDER_H / 2;
-
-    if (s.thrusting) {
-      const fh = 12 + Math.random() * 8;
-      const fg = ctx.createLinearGradient(0, hh, 0, hh + fh);
-      fg.addColorStop(0, 'rgba(192,200,255,0.9)');
-      fg.addColorStop(0.4, 'rgba(255,180,60,0.7)');
-      fg.addColorStop(1, 'rgba(255,100,20,0)');
-      ctx.fillStyle = fg;
-      ctx.beginPath(); ctx.moveTo(-5, hh); ctx.lineTo(5, hh); ctx.lineTo(0, hh + fh); ctx.fill();
-    }
-
-    ctx.strokeStyle = 'rgba(192,200,216,0.8)'; ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(-hw + 2, hh - 4); ctx.lineTo(-hw - 8, hh + 8);
-    ctx.moveTo(-hw - 8, hh + 8); ctx.lineTo(-hw - 12, hh + 8);
-    ctx.moveTo(hw - 2, hh - 4);  ctx.lineTo(hw + 8, hh + 8);
-    ctx.moveTo(hw + 8, hh + 8);  ctx.lineTo(hw + 12, hh + 8);
-    ctx.stroke();
-
-    ctx.fillStyle = '#b0b8c8';
-    ctx.beginPath(); ctx.roundRect(-hw, -hh + 4, LANDER_W, LANDER_H - 4, 2); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1; ctx.stroke();
-
-    ctx.fillStyle = '#9098a8';
-    ctx.beginPath(); ctx.roundRect(-hw * 0.55, -hh - 6, LANDER_W * 0.55, 10, 1); ctx.fill();
-
-    ctx.fillStyle = '#1a2030'; ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = 'rgba(140,170,220,0.6)'; ctx.beginPath(); ctx.arc(-1, -1, 3, 0, Math.PI * 2); ctx.fill();
-
-    ctx.strokeStyle = 'rgba(212,170,96,0.8)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, -hh - 6); ctx.lineTo(0, -hh - 14); ctx.stroke();
-    ctx.fillStyle = '#d4aa60'; ctx.beginPath(); ctx.arc(0, -hh - 15, 2, 0, Math.PI * 2); ctx.fill();
-
-    ctx.restore();
-  }
-
   function drawParticles() {
     state.particles.forEach(p => {
       const a = p.life / p.maxLife;
       ctx.fillStyle = p.type === 'thrust'
-        ? `rgba(180,200,255,${a * 0.8})`
+        ? `rgba(180,200,255,${a * 0.85})`
         : `rgba(220,140,60,${a})`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.type === 'crash' ? 2 : 1.5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.type === 'crash' ? 2.5 : 2, 0, Math.PI * 2); ctx.fill();
     });
   }
 
@@ -334,15 +533,13 @@
     bg.addColorStop(0, '#060610'); bg.addColorStop(1, '#0e0e18');
     ctx.fillStyle = bg; ctx.fillRect(0, 0, cw, ch);
     for (let i = 0; i < 80; i++) {
-      ctx.globalAlpha = 0.2 + (i % 5) * 0.08;
-      ctx.fillStyle = '#fff';
+      ctx.globalAlpha = 0.2 + (i % 5) * 0.08; ctx.fillStyle = '#fff';
       ctx.beginPath(); ctx.arc((i * 137.5) % cw, (i * 89.3) % (ch * 0.7), 0.8, 0, Math.PI * 2); ctx.fill();
     }
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#2a2a35'; ctx.fillRect(0, ch * 0.72, cw, ch);
   }
 
-  // Game loop
   function gameLoop() { update(); draw(); animId = requestAnimationFrame(gameLoop); }
 
   function startGame() {
@@ -382,11 +579,9 @@
     }, landed ? 600 : 1200);
   }
 
-  // Init
   drawIdle();
   startBtn.addEventListener('click', startGame);
 
-  // Duplicate ticker for seamless loop
   const track = document.getElementById('tickerTrack');
   if (track) track.innerHTML += track.innerHTML;
 
