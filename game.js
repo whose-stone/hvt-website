@@ -22,15 +22,16 @@
   resizeCanvas();
   window.addEventListener('resize', () => { resizeCanvas(); if (!gameRunning) drawIdle(); });
 
-  // Constants
-  const GRAVITY      = 0.012;
-  const THRUST_MAIN  = 0.030;
-  const MAX_LAND_VEL = 0.8;
-  const MAX_LAND_ANG = 0.35;
-  const PAD_W        = 60;
+  // ── Constants (tuned for easier play) ──────────────────
+  const GRAVITY      = 0.007;   // was 0.012 — gentler pull
+  const THRUST_MAIN  = 0.040;   // was 0.030 — more responsive engine
+  const ROTATE_SPEED = 0.025;   // was 0.030 — slightly less twitchy rotation
+  const MAX_LAND_VEL = 1.4;     // was 0.8  — more forgiving touchdown speed
+  const MAX_LAND_ANG = 0.52;    // was 0.35 — ~30° tolerance instead of ~20°
+  const PAD_W        = 90;      // was 60   — wider landing pads
   const LANDER_W     = 28;
   const LANDER_H     = 22;
-  const TOTAL_FUEL   = 1000;
+  const TOTAL_FUEL   = 1400;    // was 1000 — more fuel to learn with
 
   let state, keys, score, gameRunning, animId;
 
@@ -38,9 +39,9 @@
     const cw = canvas.width, ch = canvas.height;
     state = {
       x: cw / 2,
-      y: ch * 0.12,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: 0.1,
+      y: ch * 0.10,
+      vx: (Math.random() - 0.5) * 0.25,  // less initial horizontal drift
+      vy: 0.05,                            // slower initial descent
       angle: 0,
       fuel: TOTAL_FUEL,
       thrusting: false,
@@ -56,12 +57,13 @@
 
   function generateTerrain() {
     const cw = canvas.width, ch = canvas.height;
-    const pts = [{ x: 0, y: ch * 0.72 }];
-    const segments = 18;
+    // Flatter terrain: less vertical variance
+    const pts = [{ x: 0, y: ch * 0.75 }];
+    const segments = 14;  // fewer segments = gentler slopes
     for (let i = 1; i < segments; i++) {
-      pts.push({ x: (cw / segments) * i, y: ch * 0.6 + Math.random() * ch * 0.22 });
+      pts.push({ x: (cw / segments) * i, y: ch * 0.65 + Math.random() * ch * 0.16 });
     }
-    pts.push({ x: cw, y: ch * 0.72 });
+    pts.push({ x: cw, y: ch * 0.75 });
     pts.push({ x: cw, y: ch });
     pts.push({ x: 0, y: ch });
     return pts;
@@ -75,7 +77,7 @@
     while (pads.length < 3 && tries < 200) {
       tries++;
       const i = 1 + Math.floor(Math.random() * (pts.length - 4));
-      if ([...usedIdx].some(u => Math.abs(u - i) < 3)) continue;
+      if ([...usedIdx].some(u => Math.abs(u - i) < 2)) continue;
       const p1 = pts[i], p2 = pts[i + 1];
       if (!p2 || (p2.x - p1.x) < 10) continue;
       const flatY = (p1.y + p2.y) / 2;
@@ -129,12 +131,12 @@
     if (keys['ArrowUp'] && s.fuel > 0) {
       s.vx -= Math.sin(s.angle) * THRUST_MAIN;
       s.vy -= Math.cos(s.angle) * THRUST_MAIN;
-      s.fuel = Math.max(0, s.fuel - 2);
+      s.fuel = Math.max(0, s.fuel - 1.5);  // fuel burns slightly slower
       s.thrusting = true;
       spawnParticles(s);
     }
-    if (keys['ArrowLeft'] && s.fuel > 0) { s.angle -= 0.03; s.fuel = Math.max(0, s.fuel - 0.5); }
-    if (keys['ArrowRight'] && s.fuel > 0) { s.angle += 0.03; s.fuel = Math.max(0, s.fuel - 0.5); }
+    if (keys['ArrowLeft']  && s.fuel > 0) { s.angle -= ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
+    if (keys['ArrowRight'] && s.fuel > 0) { s.angle += ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
 
     s.vy += GRAVITY;
     s.x  += s.vx;
@@ -196,7 +198,9 @@
           const a = Math.random() * Math.PI * 2, sp = 1 + Math.random() * 3;
           s.particles.push({ x: s.x, y: s.y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp - 1, life: 50, maxLife: 50, type: 'crash' });
         }
-        endGame(false, 0, 0);
+        // Show why it crashed
+        const reason = !pad ? 'missed the pad' : (speed > MAX_LAND_VEL ? 'too fast' : 'too angled');
+        endGame(false, 0, 0, reason);
       }
     }
   }
@@ -209,7 +213,7 @@
     altEl.textContent  = alt + 'm';
     velEl.textContent  = vel.toFixed(2) + 'm/s';
     velEl.style.color  = vel > MAX_LAND_VEL ? '#e07070' : '#c0c8d8';
-    fuelEl.style.color = s.fuel < 200 ? '#d4aa60' : '#c0c8d8';
+    fuelEl.style.color = s.fuel < 300 ? '#d4aa60' : '#c0c8d8';
   }
 
   // Drawing
@@ -250,10 +254,17 @@
 
   function drawPads() {
     state.pads.forEach(pad => {
+      // Pad glow
+      const grd = ctx.createLinearGradient(pad.x, pad.y - 6, pad.x, pad.y);
+      grd.addColorStop(0, 'rgba(192,200,216,0.0)');
+      grd.addColorStop(1, 'rgba(192,200,216,0.08)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(pad.x, pad.y - 6, pad.w, 6);
+
       ctx.fillStyle = '#c0c8d8'; ctx.fillRect(pad.x, pad.y - 3, pad.w, 3);
-      for (let i = 0; i <= 5; i++) {
+      for (let i = 0; i <= 6; i++) {
         ctx.fillStyle = i % 2 === 0 ? '#d4aa60' : '#c0c8d8';
-        ctx.beginPath(); ctx.arc(pad.x + (pad.w / 5) * i, pad.y - 5, 2, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(pad.x + (pad.w / 6) * i, pad.y - 5, 2.5, 0, Math.PI * 2); ctx.fill();
       }
       ctx.fillStyle = '#d4aa60';
       ctx.font = `bold ${Math.max(9, canvas.width * 0.014)}px 'Share Tech Mono', monospace`;
@@ -350,7 +361,7 @@
     drawIdle();
   }
 
-  function endGame(landed, padPts, total) {
+  function endGame(landed, padPts, total, reason) {
     setTimeout(() => {
       if (landed) {
         overlayTitle.textContent = '✓ TOUCHDOWN';
@@ -358,7 +369,7 @@
         startBtn.textContent = 'NEXT MISSION';
       } else {
         overlayTitle.textContent = '✗ MISSION ABORT';
-        overlayMsg.innerHTML = `Touchdown failed.<br/>Score: <strong>${score}</strong>`;
+        overlayMsg.innerHTML = `Reason: ${reason || 'crash'}.<br/>Score: <strong>${score}</strong>`;
         startBtn.textContent = 'RETRY MISSION';
       }
       gameRunning = false;
