@@ -1,176 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
 
-  <circle cx="100" cy="100" r="98" fill="#0a0e1a"/>
-  <circle cx="100" cy="100" r="98" fill="none" stroke="#d4aa60" stroke-width="5.5"/>
-  <circle cx="100" cy="100" r="90" fill="none" stroke="#1a2240" stroke-width="1.2"/>
-  <circle cx="100" cy="100" r="86" fill="none" stroke="#d4aa60" stroke-width="0.7"/>
+  <!-- Outer filled ring -->
+  <circle cx="100" cy="100" r="99" fill="#0d1526"/>
 
-  <circle cx="62"  cy="52"  r="1.2" fill="#c8d4e8" opacity="0.8"/>
-  <circle cx="75"  cy="44"  r="0.9" fill="#d4aa60" opacity="0.8"/>
-  <circle cx="55"  cy="65"  r="0.8" fill="#c8d4e8" opacity="0.7"/>
-  <circle cx="140" cy="48"  r="1.1" fill="#c8d4e8" opacity="0.8"/>
-  <circle cx="152" cy="58"  r="0.8" fill="#d4aa60" opacity="0.8"/>
-  <circle cx="148" cy="38"  r="0.7" fill="#ffffff"  opacity="0.7"/>
-  <circle cx="100" cy="36"  r="1.0" fill="#c8d4e8" opacity="0.8"/>
-  <circle cx="115" cy="40"  r="0.7" fill="#ffffff"  opacity="0.6"/>
-  <circle cx="87"  cy="42"  r="0.8" fill="#c8d4e8" opacity="0.7"/>
-  <circle cx="52"  cy="88"  r="0.7" fill="#c8d4e8" opacity="0.7"/>
-  <circle cx="148" cy="88"  r="0.7" fill="#c8d4e8" opacity="0.7"/>
+  <!-- Thick border ring -->
+  <circle cx="100" cy="100" r="99" fill="none" stroke="#c0ccd8" stroke-width="10"/>
 
-  <path d="M 64,138 Q 76,116 100,110 Q 124,104 144,86 Q 152,76 150,64"
-        fill="none" stroke="#d4aa60" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
-  <circle cx="150" cy="63" r="2.5" fill="#d4aa60" opacity="0.9"/>
-  <circle cx="150" cy="63" r="4.5" fill="none" stroke="#d4aa60" stroke-width="0.6" opacity="0.5"/>
+  <!-- Inner border ring -->
+  <circle cx="100" cy="100" r="84" fill="none" stroke="#c0ccd8" stroke-width="1.5"/>
 
-  <ellipse cx="60"  cy="148" rx="24" ry="13" fill="#b0b8c0" opacity="0.2"/>
-  <ellipse cx="60"  cy="148" rx="24" ry="13" fill="none" stroke="#8898a8" stroke-width="0.6" opacity="0.5"/>
-  <ellipse cx="60"  cy="150" rx="19" ry="9"  fill="#8090a0" opacity="0.15"/>
-  <ellipse cx="60"  cy="146" rx="12" ry="5"  fill="#c0c8d0" opacity="0.25"/>
-  <ellipse cx="54"  cy="146" rx="4"  ry="2"  fill="#708090" opacity="0.3"/>
-  <ellipse cx="66"  cy="144" rx="5"  ry="2.5" fill="#708090" opacity="0.3"/>
-  <ellipse cx="60"  cy="151" rx="3"  ry="1.5" fill="#708090" opacity="0.25"/>
-
-  <g transform="translate(84, 62) scale(0.72)">
-    <defs>
-      <linearGradient id="lds" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"   stop-color="#e0e8f0"/>
-        <stop offset="60%"  stop-color="#b0bcc8"/>
-        <stop offset="100%" stop-color="#8090a0"/>
-      </linearGradient>
-      <linearGradient id="las" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"   stop-color="#c8d4e0"/>
-        <stop offset="100%" stop-color="#7890a0"/>
-      </linearGradient>
-      <linearGradient id="lat" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%"   stop-color="#b0c4d4"/>
-        <stop offset="100%" stop-color="#7090a8"/>
-      </linearGradient>
-      <linearGradient id="lgf" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"   stop-color="#f0d068"/>
-        <stop offset="50%"  stop-color="#c89820"/>
-        <stop offset="100%" stop-color="#a07010"/>
-      </linearGradient>
-      <linearGradient id="lwg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"   stop-color="#3a5878"/>
-        <stop offset="100%" stop-color="#0c1828"/>
-      </linearGradient>
-      <radialGradient id="lwr" cx="35%" cy="30%" r="65%">
-        <stop offset="0%"   stop-color="#80aac8" stop-opacity="0.7"/>
-        <stop offset="100%" stop-color="#0c1828" stop-opacity="0"/>
-      </radialGradient>
-      <linearGradient id="lsc" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%"   stop-color="#1a2540"/>
-        <stop offset="100%" stop-color="#0e1828"/>
-      </linearGradient>
-      <linearGradient id="lth" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="#b0bcc8"/>
-        <stop offset="100%" stop-color="#607080"/>
-      </linearGradient>
-    </defs>
-
-    <polygon points="38,57 54,57 60,65 54,80 38,80 22,80 16,65 22,57"
-             fill="url(#lds)" stroke="#8898a8" stroke-width="0.8"/>
-    <polygon points="54,57 60,65 60,80 54,80" fill="#788090" opacity="0.7"/>
-    <line x1="28" y1="57" x2="28" y2="80" stroke="#7888a0" stroke-width="0.5" opacity="0.5"/>
-    <line x1="36" y1="57" x2="36" y2="80" stroke="#7888a0" stroke-width="0.4" opacity="0.35"/>
-    <line x1="46" y1="57" x2="46" y2="80" stroke="#7888a0" stroke-width="0.4" opacity="0.35"/>
-    <line x1="16" y1="67" x2="60" y2="67" stroke="#8898a8" stroke-width="0.5" opacity="0.45"/>
-    <line x1="17" y1="73" x2="60" y2="73" stroke="#8898a8" stroke-width="0.4" opacity="0.3"/>
-
-    <rect x="26" y="80" width="28" height="7" rx="0.8" fill="#a8b8c4" stroke="#7888a0" stroke-width="0.5"/>
-    <rect x="27" y="81" width="5" height="5" rx="0.3" fill="#506070" opacity="0.7"/>
-    <rect x="34" y="81" width="5" height="5" rx="0.3" fill="#506070" opacity="0.7"/>
-    <rect x="41" y="81" width="5" height="5" rx="0.3" fill="#506070" opacity="0.7"/>
-    <rect x="48" y="81" width="5" height="5" rx="0.3" fill="#506070" opacity="0.7"/>
-
-    <rect x="28" y="38" width="24" height="20" rx="1.5" fill="url(#las)" stroke="#7888a0" stroke-width="0.8"/>
-    <rect x="28" y="37" width="24" height="4"  rx="0.8" fill="url(#lat)" stroke-width="0.5"/>
-    <rect x="29" y="41" width="7"  height="5"  rx="0.5" fill="#3a5068" stroke="#4a6080" stroke-width="0.4" opacity="0.9"/>
-    <rect x="38" y="41" width="4"  height="5"  rx="0.5" fill="#2a3e54" opacity="0.9"/>
-    <rect x="44" y="41" width="7"  height="5"  rx="0.5" fill="#3a5068" stroke="#4a6080" stroke-width="0.4" opacity="0.9"/>
-    <line x1="29" y1="49" x2="51" y2="49" stroke="#6878909" stroke-width="0.4" opacity="0.45"/>
-    <line x1="29" y1="53" x2="51" y2="53" stroke="#6878909" stroke-width="0.35" opacity="0.3"/>
-
-    <circle cx="40" cy="68" r="9"   fill="#0c1520" stroke="#506070" stroke-width="1.2"/>
-    <circle cx="40" cy="68" r="7"   fill="url(#lwg)"/>
-    <circle cx="40" cy="68" r="7"   fill="url(#lwr)"/>
-    <circle cx="37" cy="65" r="2.5" fill="#5888a8" opacity="0.3"/>
-    <circle cx="40" cy="68" r="7"   fill="none" stroke="#7aa0be" stroke-width="0.4" opacity="0.5"/>
-    <line x1="36" y1="68" x2="44" y2="68" stroke="#607888" stroke-width="0.4" opacity="0.4"/>
-    <line x1="40" y1="64" x2="40" y2="72" stroke="#607888" stroke-width="0.4" opacity="0.4"/>
-
-    <path d="M28,57 L20,50 L20,40 L28,38" fill="none" stroke="url(#lgf)" stroke-width="1.3" opacity="0.9"/>
-    <path d="M52,57 L60,50 L60,40 L52,38" fill="none" stroke="url(#lgf)" stroke-width="1.3" opacity="0.9"/>
-    <rect x="14" y="34" width="14" height="10" rx="1.2" fill="url(#lgf)" stroke="#a07010" stroke-width="0.6" opacity="0.88"/>
-    <line x1="16" y1="37" x2="26" y2="37" stroke="#604000" stroke-width="0.6" opacity="0.5"/>
-    <line x1="16" y1="41" x2="26" y2="41" stroke="#604000" stroke-width="0.6" opacity="0.5"/>
-    <rect x="52" y="34" width="14" height="10" rx="1.2" fill="url(#lgf)" stroke="#a07010" stroke-width="0.6" opacity="0.88"/>
-    <line x1="54" y1="37" x2="64" y2="37" stroke="#604000" stroke-width="0.6" opacity="0.5"/>
-    <line x1="54" y1="41" x2="64" y2="41" stroke="#604000" stroke-width="0.6" opacity="0.5"/>
-
-    <rect x="2"  y="72" width="18" height="13" rx="1.5" fill="url(#lsc)" stroke="#2a4060" stroke-width="0.7"/>
-    <line x1="7"  y1="72" x2="7"  y2="85" stroke="#1e3050" stroke-width="0.6"/>
-    <line x1="11" y1="72" x2="11" y2="85" stroke="#1e3050" stroke-width="0.6"/>
-    <line x1="15" y1="72" x2="15" y2="85" stroke="#1e3050" stroke-width="0.6"/>
-    <line x1="2"  y1="78" x2="20" y2="78" stroke="#2a4870" stroke-width="0.5"/>
-    <line x1="20" y1="72" x2="26" y2="72" stroke="#8898a8" stroke-width="0.9"/>
-
-    <rect x="60" y="72" width="18" height="13" rx="1.5" fill="url(#lsc)" stroke="#2a4060" stroke-width="0.7"/>
-    <line x1="65" y1="72" x2="65" y2="85" stroke="#1e3050" stroke-width="0.6"/>
-    <line x1="69" y1="72" x2="69" y2="85" stroke="#1e3050" stroke-width="0.6"/>
-    <line x1="73" y1="72" x2="73" y2="85" stroke="#1e3050" stroke-width="0.6"/>
-    <line x1="60" y1="78" x2="78" y2="78" stroke="#2a4870" stroke-width="0.5"/>
-    <line x1="54" y1="72" x2="60" y2="72" stroke="#8898a8" stroke-width="0.9"/>
-
-    <line x1="30" y1="87" x2="18" y2="100" stroke="#a0b0be" stroke-width="2.2" stroke-linecap="round"/>
-    <line x1="27" y1="87" x2="13" y2="102" stroke="#8898a8" stroke-width="1.4" stroke-linecap="round"/>
-    <line x1="18" y1="100" x2="8"  y2="100" stroke="#a0b0be" stroke-width="2.8" stroke-linecap="round"/>
-    <line x1="13" y1="102" x2="4"  y2="102" stroke="#8090a0" stroke-width="1.2" stroke-linecap="round"/>
-
-    <line x1="50" y1="87" x2="62" y2="100" stroke="#a0b0be" stroke-width="2.2" stroke-linecap="round"/>
-    <line x1="53" y1="87" x2="67" y2="102" stroke="#8898a8" stroke-width="1.4" stroke-linecap="round"/>
-    <line x1="62" y1="100" x2="72" y2="100" stroke="#a0b0be" stroke-width="2.8" stroke-linecap="round"/>
-    <line x1="67" y1="102" x2="76" y2="102" stroke="#8090a0" stroke-width="1.2" stroke-linecap="round"/>
-
-    <rect x="35" y="87" width="10" height="9" rx="0.8" fill="url(#lth)" stroke-width="0.7"/>
-    <ellipse cx="40" cy="96" rx="4" ry="2" fill="#506070" stroke="#404e5e" stroke-width="0.4"/>
-
-    <line x1="40" y1="37" x2="40" y2="25" stroke="#c0c8d8" stroke-width="1.4" stroke-linecap="round"/>
-    <line x1="40" y1="25" x2="37" y2="19" stroke="#b0b8c8" stroke-width="1.0" stroke-linecap="round"/>
-    <line x1="40" y1="23" x2="43" y2="17" stroke="#a8b0c0" stroke-width="0.8" stroke-linecap="round"/>
-    <circle cx="40" cy="14" r="3.5" fill="url(#lgf)" stroke="#906010" stroke-width="0.7"/>
-    <circle cx="40" cy="14" r="1.5" fill="#f8e088"/>
-  </g>
-
+  <!-- Curved top text path -->
   <defs>
-    <path id="pTopArc" d="M 22,100 A 78,78 0 0,1 178,100" fill="none"/>
-    <path id="pBotArc" d="M 28,116 A 78,78 0 0,0 172,116" fill="none"/>
+    <path id="topRim" d="M 18,100 A 82,82 0 0,1 182,100"/>
+    <path id="botRim" d="M 26,118 A 82,82 0 0,0 174,118"/>
   </defs>
 
-  <text font-family="'Orbitron','Courier New',monospace" font-size="7.5" font-weight="700"
-        letter-spacing="1.5" text-anchor="middle" fill="#d4aa60">
-    <textPath href="#pTopArc" startOffset="50%">HIGH VALUE THINKING</textPath>
-  </text>
-  <text font-family="'Orbitron','Courier New',monospace" font-size="5.5" font-weight="600"
-        letter-spacing="1.2" text-anchor="middle" fill="#7888a8">
-    <textPath href="#pBotArc" startOffset="50%">MISSION CONTROL · EST. 2016</textPath>
+  <!-- Top curved text: HIGH VALUE THINKING -->
+  <text font-family="'Orbitron','Trebuchet MS',sans-serif"
+        font-size="11.5" font-weight="700" letter-spacing="2.5"
+        text-anchor="middle" fill="#c0ccd8">
+    <textPath href="#topRim" startOffset="50%">HIGH VALUE THINKING</textPath>
   </text>
 
-  <text x="100" y="168"
-        font-family="'Orbitron','Courier New',monospace"
-        font-size="30" font-weight="900"
-        letter-spacing="4" text-anchor="middle"
-        fill="#c8d4e0">HVT</text>
+  <!-- Bottom curved text: EST. 2016 -->
+  <text font-family="'Orbitron','Trebuchet MS',sans-serif"
+        font-size="9" font-weight="600" letter-spacing="2"
+        text-anchor="middle" fill="#d4aa60">
+    <textPath href="#botRim" startOffset="50%">EST. 2016</textPath>
+  </text>
 
-  <line x1="28"  y1="127" x2="46"  y2="127" stroke="#d4aa60" stroke-width="0.8" opacity="0.7"/>
-  <line x1="154" y1="127" x2="172" y2="127" stroke="#d4aa60" stroke-width="0.8" opacity="0.7"/>
-  <circle cx="24"  cy="127" r="1.5" fill="#d4aa60" opacity="0.7"/>
-  <circle cx="176" cy="127" r="1.5" fill="#d4aa60" opacity="0.7"/>
+  <!-- Dot separators on the horizontal -->
+  <circle cx="27"  cy="100" r="2.5" fill="#d4aa60"/>
+  <circle cx="173" cy="100" r="2.5" fill="#d4aa60"/>
 
-  <polygon points="100,38 102,44 108,44 103,48 105,54 100,50 95,54 97,48 92,44 98,44"
-           fill="#d4aa60" opacity="0.65" transform="scale(0.55) translate(82,26)"/>
-  <polygon points="44,72  45.2,75.5 49,75.5 46,77.5 47.2,81 44,79 40.8,81 42,77.5 39,75.5 42.8,75.5"
-           fill="#d4aa60" opacity="0.55"/>
-  <polygon points="156,72 157.2,75.5 161,75.5 158,77.5 159.2,81 156,79 152.8,81 154,77.5 151,75.5 154.8,75.5"
-           fill="#d4aa60" opacity="0.55"/>
+  <!-- Simple lunar arc / crescent shape as central graphic -->
+  <!-- Moon crescent -->
+  <circle cx="100" cy="82" r="22" fill="#c0ccd8"/>
+  <circle cx="110" cy="78" r="18" fill="#0d1526"/>
+
+  <!-- Trajectory arc over the moon -->
+  <path d="M 62,100 Q 100,52 138,100"
+        fill="none" stroke="#d4aa60" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Small spacecraft dot on arc -->
+  <circle cx="100" cy="61" r="3.5" fill="#d4aa60"/>
+
+  <!-- HVT wordmark -->
+  <text x="100" y="148"
+        font-family="'Orbitron','Trebuchet MS',sans-serif"
+        font-size="32" font-weight="900"
+        letter-spacing="6" text-anchor="middle"
+        fill="#c0ccd8">HVT</text>
+
+  <!-- Thin rule under HVT -->
+  <line x1="52" y1="155" x2="148" y2="155"
+        stroke="#d4aa60" stroke-width="1.2"/>
+
 </svg>
