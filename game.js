@@ -23,15 +23,15 @@
   window.addEventListener('resize', () => { resizeCanvas(); if (!gameRunning) drawIdle(); });
 
   // ── Constants (tuned for easier play) ──────────────────
-  const GRAVITY      = 0.007;   // was 0.012 — gentler pull
-  const THRUST_MAIN  = 0.040;   // was 0.030 — more responsive engine
-  const ROTATE_SPEED = 0.025;   // was 0.030 — slightly less twitchy rotation
-  const MAX_LAND_VEL = 1.4;     // was 0.8  — more forgiving touchdown speed
-  const MAX_LAND_ANG = 0.52;    // was 0.35 — ~30° tolerance instead of ~20°
-  const PAD_W        = 90;      // was 60   — wider landing pads
+  const GRAVITY      = 0.007;
+  const THRUST_MAIN  = 0.040;
+  const ROTATE_SPEED = 0.025;
+  const MAX_LAND_VEL = 1.4;
+  const MAX_LAND_ANG = 0.52;
+  const PAD_W        = 90;
   const LANDER_W     = 28;
   const LANDER_H     = 22;
-  const TOTAL_FUEL   = 1400;    // was 1000 — more fuel to learn with
+  const TOTAL_FUEL   = 1400;
 
   let state, keys, score, gameRunning, animId;
 
@@ -40,8 +40,8 @@
     state = {
       x: cw / 2,
       y: ch * 0.10,
-      vx: (Math.random() - 0.5) * 0.25,  // less initial horizontal drift
-      vy: 0.05,                            // slower initial descent
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: 0.05,
       angle: 0,
       fuel: TOTAL_FUEL,
       thrusting: false,
@@ -57,9 +57,8 @@
 
   function generateTerrain() {
     const cw = canvas.width, ch = canvas.height;
-    // Flatter terrain: less vertical variance
     const pts = [{ x: 0, y: ch * 0.75 }];
-    const segments = 14;  // fewer segments = gentler slopes
+    const segments = 14;
     for (let i = 1; i < segments; i++) {
       pts.push({ x: (cw / segments) * i, y: ch * 0.65 + Math.random() * ch * 0.16 });
     }
@@ -131,12 +130,13 @@
     if (keys['ArrowUp'] && s.fuel > 0) {
       s.vx -= Math.sin(s.angle) * THRUST_MAIN;
       s.vy -= Math.cos(s.angle) * THRUST_MAIN;
-      s.fuel = Math.max(0, s.fuel - 1.5);  // fuel burns slightly slower
+      s.fuel = Math.max(0, s.fuel - 1.5);
       s.thrusting = true;
       spawnParticles(s);
     }
-    if (keys['ArrowLeft']  && s.fuel > 0) { s.angle -= ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
-    if (keys['ArrowRight'] && s.fuel > 0) { s.angle += ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
+    // Fixed: ArrowLeft rotates counter-clockwise (negative = left), ArrowRight clockwise (positive = right)
+    if (keys['ArrowLeft']  && s.fuel > 0) { s.angle += ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
+    if (keys['ArrowRight'] && s.fuel > 0) { s.angle -= ROTATE_SPEED; s.fuel = Math.max(0, s.fuel - 0.3); }
 
     s.vy += GRAVITY;
     s.x  += s.vx;
@@ -198,7 +198,6 @@
           const a = Math.random() * Math.PI * 2, sp = 1 + Math.random() * 3;
           s.particles.push({ x: s.x, y: s.y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp - 1, life: 50, maxLife: 50, type: 'crash' });
         }
-        // Show why it crashed
         const reason = !pad ? 'missed the pad' : (speed > MAX_LAND_VEL ? 'too fast' : 'too angled');
         endGame(false, 0, 0, reason);
       }
@@ -254,13 +253,11 @@
 
   function drawPads() {
     state.pads.forEach(pad => {
-      // Pad glow
       const grd = ctx.createLinearGradient(pad.x, pad.y - 6, pad.x, pad.y);
       grd.addColorStop(0, 'rgba(192,200,216,0.0)');
       grd.addColorStop(1, 'rgba(192,200,216,0.08)');
       ctx.fillStyle = grd;
       ctx.fillRect(pad.x, pad.y - 6, pad.w, 6);
-
       ctx.fillStyle = '#c0c8d8'; ctx.fillRect(pad.x, pad.y - 3, pad.w, 3);
       for (let i = 0; i <= 6; i++) {
         ctx.fillStyle = i % 2 === 0 ? '#d4aa60' : '#c0c8d8';
