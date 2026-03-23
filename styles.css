@@ -424,7 +424,7 @@ section { padding: 120px 24px; }
   align-items: center; gap: 16px; text-align: center;
   border: 1px solid var(--border); padding: 32px 24px; background: var(--surface);
 }
-.mission-patch img { width: 64px; height: 64px; opacity: 0.7; }
+.mission-patch img { width: 128px; height: 128px; opacity: 0.9; }
 .mission-patch p { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; color: var(--grey2); line-height: 1.6; }
 .mission-patch p span { font-size: 0.58rem; color: var(--grey1); font-weight: 400; }
 
